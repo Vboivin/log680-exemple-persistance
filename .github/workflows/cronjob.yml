@@ -1,0 +1,26 @@
+name: LOG680 Cronjob
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+
+env:
+  TOKEN: ${{ secrets.TOKEN }}
+  DB_CONNECTION_STRING: ${{ secrets.CONNECTION_STRING }}
+
+jobs:
+  fetch_data:
+    name: 'Getting data for 2.3'
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install PostgreSQL CLI client
+        run: |
+          sudo apt-get update
+          sudo apt-get install postgresql-client
+
+      - name: Execute script
+        run: ./fetch.sh
+
